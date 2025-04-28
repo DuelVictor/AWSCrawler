@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo Installing dependencies...
+      - npm install
+
+  build:
+    commands:
+      - echo Build phase - no build needed.
+
+  post_build:
+    commands:
+      - echo Packaging application for Elastic Beanstalk...
+      - mkdir artifact
+      - cp -r * artifact/
+      - rm -rf artifact/node_modules
+      - cd artifact
+      - npm install --only=production
+      - cd ..
+      - zip -r server-build.zip artifact/*
+
+artifacts:
+  files:
+    - server-build.zip
