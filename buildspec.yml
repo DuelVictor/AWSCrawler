@@ -16,8 +16,7 @@ phases:
     commands:
       - echo Packaging application for Elastic Beanstalk...
       - mkdir artifact
-      - shopt -s extglob
-      - cp -r !(artifact|server-build.zip) artifact/
+      - rsync -av --exclude=artifact --exclude=server-build.zip ./ artifact/
       - rm -rf artifact/node_modules
       - cd artifact
       - npm install --only=production
