@@ -2,8 +2,6 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 20
     commands:
       - echo Installing dependencies...
       - npm install
@@ -12,17 +10,16 @@ phases:
     commands:
       - echo Build phase - no build needed.
 
-post_build:
-  commands:
-    - echo Packaging application for Elastic Beanstalk...
-    - mkdir artifact
-    - rsync -av --exclude='artifact' --exclude='server-build.zip' ./ artifact/
-    - cd artifact
-    - npm install --only=production
-    - cd ..
-    - zip -r server-build.zip artifact/*
-    - echo Build finished successfully.
-    - exit 0
+  post_build:
+    commands:
+      - echo Packaging application for Elastic Beanstalk...
+      - mkdir artifact
+      - rsync -av --exclude='artifact' --exclude='server-build.zip' ./ artifact/
+      - cd artifact
+      - npm install --only=production
+      - cd ..
+      - zip -r server-build.zip artifact/*
+      - echo Build finished successfully.
 
 artifacts:
   files:
