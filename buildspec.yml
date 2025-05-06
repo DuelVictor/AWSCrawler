@@ -7,11 +7,8 @@ phases:
       - npm install
   build:
     commands:
-      - echo Build phase - no build needed.
-  post_build:
-    commands:
-      - echo Build finished successfully.
 
 artifacts:
   files:
     - '**/*'
+  base-directory: build
