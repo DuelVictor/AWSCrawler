@@ -7,5 +7,5 @@ export const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("/", healthcheckRouter);
+app.use("").get("", (req, res) => res.status(200).send('OK'));
 app.use("/api/crawler", crawlerRouter);
