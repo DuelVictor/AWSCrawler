@@ -16,11 +16,11 @@ export async function startCrawlingService2({
 	clientGuid,
 }) {
 	const queueName = `${clientGuid}-depth-0-queue`;
-	const queueUrl = createQueue(queueName);
+	const queueUrl = await createQueue(queueName);
 	console.log(queueUrl);
 	const lambdaClient = new LambdaClient({ region: "eu-west-1" });
-	const queueArn = getQueueArn(queueUrl);
-	createEventSource(lambdaClient, queueArn, "CrawlerLambdaWorker");
+	const queueArn = await getQueueArn(queueUrl);
+	await createEventSource(lambdaClient, queueArn, "CrawlerLambdaWorker");
 
 	const messageBody = {
 		targetUrl,
@@ -31,7 +31,7 @@ export async function startCrawlingService2({
 		maxPages,
 		clientGuid,
 	};
-	sendMessage(queueUrl, messageBody);
+	await sendMessage(queueUrl, messageBody);
 }
 
 async function createQueue(queueName) {
