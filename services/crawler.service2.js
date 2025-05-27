@@ -8,16 +8,16 @@ import {
 	CreateEventSourceMappingCommand,
 } from "@aws-sdk/client-lambda";
 
-export async function startCrawlingService({
+export async function startCrawlingService2({
 	targetUrl,
 	searchText,
 	maxDepth,
 	maxPages,
-	client,
+	clientGuid,
 }) {
-	const queueName = `${client}-depth-0-queue`;
+	const queueName = `${clientGuid}-depth-0-queue`;
 	const queueUrl = createQueue(queueName);
-
+	console.log(queueUrl);
 	const lambdaClient = new LambdaClient({ region: "eu-west-1" });
 	const queueArn = getQueueArn(queueUrl);
 	createEventSource(lambdaClient, queueArn, "CrawlerLambdaWorker");
@@ -29,7 +29,7 @@ export async function startCrawlingService({
 		searchText,
 		maxDepth,
 		maxPages,
-		client,
+		clientGuid,
 	};
 	sendMessage(queueUrl, messageBody);
 }
@@ -87,3 +87,4 @@ async function createEventSource(lambdaClient, queueArn, lambdaFunctionName) {
 		})
 	);
 }
+
