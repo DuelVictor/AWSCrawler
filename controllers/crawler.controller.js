@@ -16,7 +16,8 @@ export async function startCrawlingController(req, res) {
 
 export async function startCrawlingController2(req, res) {
     const { targetUrl, searchText, maxDepth, maxPages, clientGuid } = req.body;
-
+    console.log(`Target url: ${targetUrl} \n Search text: ${searchText}
+        \n Max depth: ${maxDepth} \n Max pages: ${maxPages} \n Client guid: ${clientGuid}`)
     const client = getClientByGuid(clientGuid);
     if (!client) {
         return badRequest(res, "Websocket client not found");

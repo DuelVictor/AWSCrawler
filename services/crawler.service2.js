@@ -76,7 +76,7 @@ async function sendMessage(queueUrl, messageBody) {
 }
 
 async function getQueueArn(queueUrl) {
-	const { Attributes } = await sqsClient.send(
+	const { Attributes } = await sqs.send(
 		new GetQueueAttributesCommand({
 			QueueUrl: queueUrl,
 			AttributeNames: ["QueueArn"],
