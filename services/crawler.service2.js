@@ -2,11 +2,14 @@ import {
 	CreateQueueCommand,
 	SendMessageCommand,
 	GetQueueAttributesCommand,
+	SQSClient
 } from "@aws-sdk/client-sqs";
 import {
 	LambdaClient,
 	CreateEventSourceMappingCommand,
 } from "@aws-sdk/client-lambda";
+
+const sqs = new SQSClient({region: "eu-west-1"});
 
 export async function startCrawlingService2({
 	targetUrl,
@@ -17,9 +20,13 @@ export async function startCrawlingService2({
 }) {
 	const queueName = `${clientGuid}-depth-0-queue`;
 	const queueUrl = await createQueue(queueName);
-	console.log(queueUrl);
+	console.log("Created queue: ", queueUrl);
+
 	const lambdaClient = new LambdaClient({ region: "eu-west-1" });
+
 	const queueArn = await getQueueArn(queueUrl);
+	console.log("Queue arn: ", queueArn);
+
 	await createEventSource(lambdaClient, queueArn, "CrawlerLambdaWorker");
 
 	const messageBody = {
@@ -31,7 +38,8 @@ export async function startCrawlingService2({
 		maxPages,
 		clientGuid,
 	};
-	await sendMessage(queueUrl, messageBody);
+	const result = await sendMessage(queueUrl, messageBody);
+	console.log("Sent message: ", result);
 }
 
 async function createQueue(queueName) {
