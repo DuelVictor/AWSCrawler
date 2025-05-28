@@ -28,6 +28,8 @@ export async function startCrawlingController2(req, res) {
 
 export async function receiveReportFromWorker(req, res) {
     const { clientGuid, targetUrl, currentDepth, pagesCrawled, nextDepthLinks } = req.body;
+    console.log(`Target url: ${targetUrl} \n Search text: ${searchText}
+        \n Current depth: ${currentDepth} \n Pages crawled: ${pagesCrawled} \n Client guid: ${clientGuid}`);
 
     const client = getClientByGuid(clientGuid);
     if(!client) {
