@@ -47,7 +47,7 @@ async function createQueue(queueName) {
 		const params = {
 			QueueName: queueName,
 			Attributes: {
-				VisibilityTimeout: "120",
+				VisibilityTimeout: "600",
 				MessageRetentionPeriod: "120",
 			},
 		};
